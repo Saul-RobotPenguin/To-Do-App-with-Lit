@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit";
+import { LitElement, css, html } from "lit";
 
 const author = "Saul.C";
 const homepage = "https://www.saul-calleja.com/";
@@ -7,6 +7,22 @@ const footerTemplate = html`
 `;
 
 export class TodoApp extends LitElement {
+  static styles = css`
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #ededed;
+    }
+    .centered {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      /* bring your own prefixes */
+      transform: translate(-50%, -70%);
+    }
+  `;
   static properties = {
     todos: { type: Array },
   };
@@ -22,28 +38,30 @@ export class TodoApp extends LitElement {
 
   render() {
     return html`
-      <h1>Todo app</h1>
+      <div class="centered">
+        <h1>Todo app</h1>
 
-      <input id="addTodoInput" placeholder="Name" />
-      <button @click=${this._addTodo}>Add</button>
+        <input id="addTodoInput" placeholder="Name" />
+        <button @click=${this._addTodo}>Add</button>
 
-      <ol>
-        ${this.todos.map(
-          (todo) => html`
-            <li>
-              <input
-                type="checkbox"
-                .checked=${todo.finished}
-                @change=${(e) => this._changeTodoFinished(e, todo)}
-              />
-              ${todo.text}
-              <button @click=${() => this._removeTodo(todo)}>X</button>
-            </li>
-          `
-        )}
-      </ol>
+        <ol>
+          ${this.todos.map(
+            (todo) => html`
+              <li>
+                <input
+                  type="checkbox"
+                  .checked=${todo.finished}
+                  @change=${(e) => this._changeTodoFinished(e, todo)}
+                />
+                ${todo.text}
+                <button @click=${() => this._removeTodo(todo)}>X</button>
+              </li>
+            `
+          )}
+        </ol>
 
-      ${footerTemplate}
+        ${footerTemplate}
+      </div>
     `;
   }
 
